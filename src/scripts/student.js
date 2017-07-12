@@ -32,6 +32,7 @@ function main() {
 
     firebase.database().ref(sessionIdStudent + '/teacherbase64').on('value', function(snapshot) {
 
+        startActivity();
         //console.log(snapshot.val());
         if (snapshot.val()) {
             file = snapshot.val();
@@ -63,9 +64,6 @@ function main() {
                             ctx.globalAlpha = 1;
                         }
                         type = e.target.id;
-                    }
-                    else if(e.target.id == 'Finish'){
-                        combineCanvases();
                     }
                 });
 
@@ -170,6 +168,10 @@ function studentLogin() {
     main();
 }
 
+$("#Finish").click(function() {
+    combineCanvases();
+});
+
 function combineCanvases(){
     bgd.drawImage(canvas,0,0);
     var dataURL = background.toDataURL('jpg');
@@ -178,6 +180,7 @@ function combineCanvases(){
     } else {
         studentId = firebase.database().ref(sessionIdStudent + '/studentList/').push({studentImg: dataURL, name: studentName})
     }
+    finishActivity();
 }
 
 function setDefault(color, width){
@@ -285,4 +288,13 @@ function getRandomName() {
     names = ["Amy","Arnold","Keith","Ken","Sharon","Amanda","Max","Brooke","Diana","Mary","Brian","Simon","Erik","Summer","Laura"]
     var x = Math.floor((Math.random() * names.length));
     return names[x]
+}
+
+function finishActivity() {
+    $(".beforeSubmit").css({'display':'none'});
+    $(".afterSubmit").css({'display':'block'});
+}
+function startActivity() {
+    $(".beforeSubmit").css({'display':'block'});
+    $(".afterSubmit").css({'display':'none'});
 }
