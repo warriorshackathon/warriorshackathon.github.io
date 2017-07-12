@@ -28,10 +28,9 @@ function main() {
 
     firebase.database().ref('/12345/teacherbase64').on('value', function(snapshot) {
 
-        console.log(snapshot.val());
-        if(snapshot.val()) {
-        if (snapshot.val().teacherbase64) {
-            file = snapshot.val().teacherbase64;
+        //console.log(snapshot.val());
+        if (snapshot.val()) {
+            file = snapshot.val();
             $('#source').hide();
             $('#canvasId').show();
             if (file == '') {
@@ -47,112 +46,104 @@ function main() {
                     bgd.drawImage(bg, 0, 0, 500, 500);
                 }
             }
-
-            document.querySelectorAll('button').forEach(function(button) {
-                button.addEventListener('click', function(e) {
-                    if (e.target.parentNode.parentNode.id == 'types' && e.target.id != 'Finish') {
-                        if (type=='Highlight'){
-                            changeColor(color);
-                            ctx.globalAlpha = 1;
+                document.querySelectorAll('button').forEach(function(button) {
+                    button.addEventListener('click', function(e) {
+                        if (e.target.parentNode.parentNode.id == 'types' && e.target.id != 'Finish') {
+                            if (type=='Highlight'){
+                                ctx.globalAlpha = 1;
+                            }
+                            type = e.target.innerText;
                         }
-                        type = e.target.innerText;
-                    }
-                    else if(e.target.id == 'Finish'){
-                        combineCanvases();
-                    }
-                    else if(e.target.parentNode.id == 'colors'){
+                        else if(e.target.id == 'Finish'){
+                            combineCanvases();
+                        }
+                        else if(e.target.parentNode.id == 'colors'){
 
-                    }
-                    else if(e.target.parentNode.id == 'width'){
+                        }
+                        else if(e.target.parentNode.id == 'width'){
 
-                    }
-                });
+                        }
+                    });
 
 
-                canvas.addEventListener('mousedown', function(e) {
-                    if (type == 'Ink') {
-                        setDefault(InkColor,InkWidth);
-                        updateAndDraw(e);
-                        canvas.onmousemove = function(e) {
+                    canvas.addEventListener('mousedown', function(e) {
+                        if (type == 'Ink') {
+                            setDefault(InkColor, InkWidth);
                             updateAndDraw(e);
-                        }
-                    } else if (type == 'Erase'){
-                        eraseContent(e);
-                        canvas.onmousemove = function(e) {
+                            canvas.onmousemove = function(e) {
+                                updateAndDraw(e);
+                            }
+                        } else if (type == 'Erase'){
                             eraseContent(e);
+                            canvas.onmousemove = function(e) {
+                                eraseContent(e);
+                            }
                         }
-                    }
-                    else if (type == 'Highlight'){
-                        highlight(e);
-                        canvas.onmousemove = function(e) {
+                        else if (type == 'Highlight'){
                             highlight(e);
+                            canvas.onmousemove = function(e) {
+                                highlight(e);
+                            }
                         }
-                    }
-                });
+                    });
 
-                canvas.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    if (type == 'Ink') {
-                        updateAndDraw(e);
-                        canvas.ontouchmove = function(e) {
-                            e.preventDefault();
+                    canvas.addEventListener('touchstart', function(e) {
+                        e.preventDefault();
+                        if (type == 'Ink') {
                             updateAndDraw(e);
-                        }
-                    } else if (type == 'Erase'){
-                        eraseContent(e);
-                        canvas.ontouchmove = function(e) {
-                            e.preventDefault();
+                            canvas.ontouchmove = function(e) {
+                                e.preventDefault();
+                                updateAndDraw(e);
+                            }
+                        } else if (type == 'Erase'){
                             eraseContent(e);
+                            canvas.ontouchmove = function(e) {
+                                e.preventDefault();
+                                eraseContent(e);
+                            }
                         }
-                    }
-                    else if (type == 'Highlight'){
-                        highlight(e);
-                        canvas.ontouchmove = function(e) {
-                            e.preventDefault();
+                        else if (type == 'Highlight'){
                             highlight(e);
+                            canvas.ontouchmove = function(e) {
+                                e.preventDefault();
+                                highlight(e);
+                            }
                         }
-                    }
-                });
+                    });
 
-                canvas.addEventListener("mouseup", function(e) {
-                    if (type == 'Ink') {
-                        canvas.onmousemove = function(e) {
-                            drawPositions = [];
+                    canvas.addEventListener("mouseup", function(e) {
+                        if (type == 'Ink') {
+                            canvas.onmousemove = function(e) {
+                                drawPositions = [];
+                            }
+                        } else {
+                            canvas.onmousemove = null
                         }
-                    } else {
-                        canvas.onmousemove = null
-                    }
-                });
+                    });
 
-                canvas.addEventListener("touchend", function(e) {
-                    if (type == 'Ink') {
-                        canvas.ontouchmove = function(e) {
-                            drawPositions = [];
+                    canvas.addEventListener("touchend", function(e) {
+                        if (type == 'Ink') {
+                            canvas.ontouchmove = function(e) {
+                                drawPositions = [];
+                            }
+                        } else {
+                            canvas.ontouchmove = null
                         }
-                    } else {
-                        canvas.ontouchmove = null
-                    }
-                });
+                    });
 
-                canvas.addEventListener('click', function(e){
-                    if(type == 'Text'){
-                        addText(e,'text would go here');
-                    }
-                });
-            })
-        }
-        else {
-            $('#source').show();
-            $('#canvasId').hide();
+                    canvas.addEventListener('click', function(e){
+                        if(type == 'Text'){
+                            addText(e,'text would go here');
+                        }
+                    });
+                })
+            }
+            else {
+                $('#source').show();
+                $('#canvasId').hide();
 
-        }
-    }
-    else {
-        $('#source').show();
-        $('#canvasId').hide();
-
-    }
-    })
+            }
+        })
 }
 
 function combineCanvases(){
@@ -180,8 +171,17 @@ function setCanvas(height, width) {
     document.getElementById('canvasId').style.width=width+'px';
 }
 
+function getMousePos(pointer) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: pointer.clientX - rect.left,
+        y: pointer.clientY - rect.top
+    };
+}
+
 function updateAndDraw(e) {
-    drawPositions.push([e.pageX, e.pageY]);
+    mousePos = getMousePos(e);
+    drawPositions.push([mousePos.x, mousePos.y]);
     drawLine();
 }
 
@@ -198,17 +198,15 @@ function drawLine() {
 }
 
 function addText(pointer, text){
-    var x = pointer.pageX;
-    var y = pointer.pageY;
-    ctx.fillText(text,x,y);
+    mousePos = getMousePos(pointer);
+    ctx.fillText(text,mousePos.x,mousePos.y);
 }
 
 function highlight(pointer){
-    var x = pointer.pageX;
-    var y = pointer.pageY;
-    ctx.globalAlpha = 0.1;
+    mousePos = getMousePos(pointer);
+    ctx.globalAlpha = 0.2;
     ctx.fillStyle = "yellow";
-    ctx.fillRect(x - 5, y - 5, 10, 10);
+    ctx.fillRect(mousePos.x - 5, mousePos.y - 5, 10, 10);
 }
 
 function changeColor(color){
@@ -220,9 +218,8 @@ function changeWidth(width){
     ctx.lineWidth=width;
 }
 function eraseContent(pointer) {
-    var x = pointer.pageX;
-    var y = pointer.pageY;
-    ctx.clearRect(x - 5, y - 5, 10, 10);
+    mousePos = getMousePos(pointer);
+    ctx.clearRect(mousePos.x - 5, mousePos.y - 5, 10, 10);
 }
 
 function convertToPDF(pdfurl, pageNum) {
