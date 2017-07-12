@@ -94,7 +94,7 @@ function resetActivity() {
   var rem = document.querySelectorAll("[id*='myModal']"), i = 0;
   for (; i < rem.length; i++)
     rem[i].parentNode.removeChild(rem[i]);
-  updateImageFromTemplate('resources/uploadImage.jpg');
+  updateImageFromTemplate('resources/uploadimage.jpg');
 }
 
 function makeid() {
