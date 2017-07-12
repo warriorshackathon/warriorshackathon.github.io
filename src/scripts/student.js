@@ -11,8 +11,7 @@ var ctx = canvas.getContext("2d");
 
 var studentId = '';
 var studentName = getRandomName();
-
-main();
+var sessionIdStudent = '';
 
 function main() {
 
@@ -27,11 +26,11 @@ function main() {
 
     firebase.initializeApp(config);
 
-    firebase.database().ref('/12345/teacherInstructions').on('value', function(snapshot) {
+    firebase.database().ref(sessionIdStudent + '/teacherInstructions').on('value', function(snapshot) {
         $("#teacherInstructionsGet").html(snapshot.val());
     });
 
-    firebase.database().ref('/12345/teacherbase64').on('value', function(snapshot) {
+    firebase.database().ref(sessionIdStudent + '/teacherbase64').on('value', function(snapshot) {
 
         //console.log(snapshot.val());
         if (snapshot.val()) {
@@ -156,18 +155,22 @@ function main() {
 }
 
 function studentLogin() {
-    
-    alert($("#studentNameInput").val());
-    alert($("#sessionIdInput").val());
+    studentName = $("#studentNameInput").val();
+    sessionIdStudent = $("#sessionIdInput").val();
+
+    $("#beforeLogin").css({'display':'none'});
+    $("#afterLogin").css({'display':'block'});
+
+    main();
 }
 
 function combineCanvases(){
     bgd.drawImage(canvas,0,0);
     var dataURL = background.toDataURL('jpg');
     if (studentId) {
-        firebase.database().ref('/12345/studentList/'+studentId.path.o[2]).set({studentImg: dataURL, name: studentName})
+        firebase.database().ref(sessionIdStudent + '/studentList/'+studentId.path.o[2]).set({studentImg: dataURL, name: studentName})
     } else {
-        studentId = firebase.database().ref('/12345/studentList/').push({studentImg: dataURL, name: studentName})
+        studentId = firebase.database().ref(sessionIdStudent + '/studentList/').push({studentImg: dataURL, name: studentName})
     }
 }
 
@@ -270,13 +273,6 @@ function convertToPDF(pdfurl, pageNum) {
             });
         });
     });
-}
-
-function addName() {
-    newName = document.getElementById("nameInput").value
-    if (newName != '')  {
-        studentName = newName
-    }
 }
 
 function getRandomName() {
