@@ -58,11 +58,10 @@ function main() {
                         setDefault(e.target.id,InkWidth);
                     }
                     else if (e.target.id != 'Finish') {
-                        console.log(e.target.innerText)
                         if (type=='Highlight'){
                             ctx.globalAlpha = 1;
                         }
-                        type = e.target.innerText;
+                        type = e.target.id;
                     }
                     else if(e.target.id == 'Finish'){
                         combineCanvases();
