@@ -2,6 +2,8 @@ var drawPositions = [];
 var type = 'Ink';
 var InkColor = 'black';
 var InkWidth = 5;
+var maxHeight = 500;
+var maxWidth = 400;
 
 var background = document.getElementById("background");
 var bgd = background.getContext("2d");
@@ -9,8 +11,8 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
 var studentId = '';
+var studentName = getRandomName();
 
-var studentName = getRandomName()
 main();
 
 function main() {
@@ -29,6 +31,7 @@ function main() {
     firebase.database().ref('/12345/teacherInstructions').on('value', function(snapshot) {
         if (snapshot.val()) $("#teacherInstructionsGet").html(snapshot.val());
     });
+
     firebase.database().ref('/12345/teacherbase64').on('value', function(snapshot) {
 
         //console.log(snapshot.val());
@@ -44,103 +47,103 @@ function main() {
                 bg = new Image();
                 bg.crossOrigin = "Anonymous";
                 bg.src = file;
-                setCanvas(500, 500);
+                imgSize = adjustImage(bg.height, bg.width);
+                setCanvas(imgSize.h, imgSize.w);
                 bg.onload = function() {
-                    bgd.drawImage(bg, 0, 0, 500, 500);
+                    bgd.drawImage(bg, 0, 0, imgSize.w, imgSize.h);
                 }
             }
-                document.querySelectorAll('button').forEach(function(button) {
-                    button.addEventListener('click', function(e) {
-                        if (e.target.id != 'Finish') {
-                            console.log('inner');
-                            if (type=='Highlight'){
-                                ctx.globalAlpha = 1;
-                            }
-                            type = e.target.innerText;
+            document.querySelectorAll('button').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    if (e.target.id != 'Finish') {
+                        if (type=='Highlight'){
+                            ctx.globalAlpha = 1;
                         }
-                        else if(e.target.id == 'Finish'){
-                            combineCanvases();
-                        }
-                    });
-                    
-                    canvas.addEventListener('mousedown', function(e) {
-                        if (type == 'Ink') {
-                            setDefault(InkColor, InkWidth);
+                        type = e.target.innerText;
+                    }
+                    else if(e.target.id == 'Finish'){
+                        combineCanvases();
+                    }
+                });
+
+                canvas.addEventListener('mousedown', function(e) {
+                    if (type == 'Ink') {
+                        setDefault(InkColor, InkWidth);
+                        updateAndDraw(e);
+                        canvas.onmousemove = function(e) {
                             updateAndDraw(e);
-                            canvas.onmousemove = function(e) {
-                                updateAndDraw(e);
-                            }
-                        } else if (type == 'Erase'){
+                        }
+                    } else if (type == 'Erase'){
+                        eraseContent(e);
+                        canvas.onmousemove = function(e) {
                             eraseContent(e);
-                            canvas.onmousemove = function(e) {
-                                eraseContent(e);
-                            }
                         }
-                        else if (type == 'Highlight'){
+                    }
+                    else if (type == 'Highlight'){
+                        highlight(e);
+                        canvas.onmousemove = function(e) {
                             highlight(e);
-                            canvas.onmousemove = function(e) {
-                                highlight(e);
-                            }
                         }
-                    });
+                    }
+                });
 
-                    canvas.addEventListener('touchstart', function(e) {
-                        e.preventDefault();
-                        if (type == 'Ink') {
+                canvas.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    if (type == 'Ink') {
+                        updateAndDraw(e);
+                        canvas.ontouchmove = function(e) {
+                            e.preventDefault();
                             updateAndDraw(e);
-                            canvas.ontouchmove = function(e) {
-                                e.preventDefault();
-                                updateAndDraw(e);
-                            }
-                        } else if (type == 'Erase'){
+                        }
+                    } else if (type == 'Erase'){
+                        eraseContent(e);
+                        canvas.ontouchmove = function(e) {
+                            e.preventDefault();
                             eraseContent(e);
-                            canvas.ontouchmove = function(e) {
-                                e.preventDefault();
-                                eraseContent(e);
-                            }
                         }
-                        else if (type == 'Highlight'){
+                    }
+                    else if (type == 'Highlight'){
+                        highlight(e);
+                        canvas.ontouchmove = function(e) {
+                            e.preventDefault();
                             highlight(e);
-                            canvas.ontouchmove = function(e) {
-                                e.preventDefault();
-                                highlight(e);
-                            }
                         }
-                    });
+                    }
+                });
 
-                    canvas.addEventListener("mouseup", function(e) {
-                        if (type == 'Ink') {
-                            canvas.onmousemove = function(e) {
-                                drawPositions = [];
-                            }
-                        } else {
-                            canvas.onmousemove = null
+                canvas.addEventListener("mouseup", function(e) {
+                    if (type == 'Ink') {
+                        canvas.onmousemove = function(e) {
+                            drawPositions = [];
                         }
-                    });
+                    } else {
+                        canvas.onmousemove = null
+                    }
+                });
 
-                    canvas.addEventListener("touchend", function(e) {
-                        if (type == 'Ink') {
-                            canvas.ontouchmove = function(e) {
-                                drawPositions = [];
-                            }
-                        } else {
-                            canvas.ontouchmove = null
+                canvas.addEventListener("touchend", function(e) {
+                    if (type == 'Ink') {
+                        canvas.ontouchmove = function(e) {
+                            drawPositions = [];
                         }
-                    });
+                    } else {
+                        canvas.ontouchmove = null
+                    }
+                });
 
-                    canvas.addEventListener('click', function(e){
-                        if(type == 'Text'){
-                            addText(e,'text would go here');
-                        }
-                    });
-                })
-            }
-            else {
-                $('#source').show();
-                $('#canvasId').hide();
+                canvas.addEventListener('click', function(e){
+                    if(type == 'Text'){
+                        addText(e,'text would go here');
+                    }
+                });
+            })
+        }
+        else {
+            $('#source').show();
+            $('#canvasId').hide();
 
-            }
-        })
+        }
+    })
 }
 
 function combineCanvases(){
@@ -157,6 +160,30 @@ function setDefault(color, width){
     changeColor(color);
     changeWidth(width);
 }
+
+function adjustImage(height, width){
+
+    var newHeight = maxHeight;
+    var newWidth = maxWidth;
+
+    if(height>maxHeight){
+        ratio = maxHeight/height;
+        newHeight = height * ratio;
+        newWidth = width * ratio;
+    }
+    if (width>maxWidth){
+        ratio = maxWidth/width;
+        newHeight = height * ratio;
+        newWidth = width * ratio;
+    }
+    // console.log(newHeight);
+    // console.log(newWidth);
+    return {
+        h: newHeight,
+        w: newWidth
+    };
+}
+
 function setCanvas(height, width) {
     fileheight= height;
     filewidth = width;
@@ -251,4 +278,3 @@ function getRandomName() {
     var x = Math.floor((Math.random() * names.length));
     return names[x]
 }
-
