@@ -116,7 +116,7 @@ function startSession() {
     console.log('Firebase already init');
   }
   if (teacherImg) {
-    firebase.database().ref('12345').set({teacherbase64: teacherImg});
+    firebase.database().ref('12345').set({teacherbase64: teacherImg, teacherInstructions: $('#teacherInstructionsPost').val()});
     firebase.database().ref('12345/studentList').on("child_added", function(snapshot, prevChildKey) {
         $('#teacher-review').show();
         $('#teacher-main').hide();
