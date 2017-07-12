@@ -55,10 +55,11 @@ function main() {
             }
             document.querySelectorAll('button').forEach(function(button) {
                 button.addEventListener('click', function(e) {
-                    if(e.target.id == 'red' || 'blue' || 'black' || 'green'){
+                    if(e.target.id == 'red' || e.target.id == 'blue' || e.target.id == 'black' || e.target.id == 'green'){
                         setDefault(e.target.id,InkWidth);
                     }
                     else if (e.target.id != 'Finish') {
+                        console.log(e.target.innerText)
                         if (type=='Highlight'){
                             ctx.globalAlpha = 1;
                         }
@@ -185,8 +186,8 @@ function setCanvas(height, width) {
 function getMousePos(pointer) {
     var rect = canvas.getBoundingClientRect();
     return {
-        x: pointer.pageX - rect.left,
-        y: pointer.pageY - rect.top
+        x: (pointer.pageX - rect.left) / (rect.right - rect.left) * canvas.width,
+        y: (pointer.pageY - rect.top) / (rect.bottom - rect.top) * canvas.height
     };
 }
 
