@@ -162,26 +162,11 @@ function setDefault(color, width){
 }
 
 function adjustImage(height, width){
-
-    var newHeight = maxHeight;
-    var newWidth = maxWidth;
-
-    if(height>maxHeight){
-        ratio = maxHeight/height;
-        newHeight = height * ratio;
-        newWidth = width * ratio;
+    ratio = Math.min(maxWidth/width, maxHeight/height);
+    return{
+        w: width*ratio,
+        h: height*ratio
     }
-    if (width>maxWidth){
-        ratio = maxWidth/width;
-        newHeight = height * ratio;
-        newWidth = width * ratio;
-    }
-    // console.log(newHeight);
-    // console.log(newWidth);
-    return {
-        h: newHeight,
-        w: newWidth
-    };
 }
 
 function setCanvas(height, width) {
