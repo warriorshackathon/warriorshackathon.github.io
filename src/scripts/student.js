@@ -53,7 +53,6 @@ function main() {
                     bgd.drawImage(bg, 0, 0, imgSize.w, imgSize.h);
                 }
             }
-            changeWidth(InkWidth); 
             document.querySelectorAll('button').forEach(function(button) {
                 button.addEventListener('click', function(e) {
                     if(e.target.id == 'red' || 'blue' || 'black' || 'green'){
@@ -205,6 +204,7 @@ function drawLine() {
         ctx.moveTo(start[0], start[1]);
         ctx.lineTo(end[0], end[1]);
         ctx.closePath();
+        ctx.lineWidth=InkWidth;
         ctx.stroke();
     }
 }
