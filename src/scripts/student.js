@@ -2,8 +2,8 @@ var drawPositions = [];
 var type = 'Ink';
 var InkColor = 'black';
 var InkWidth = 5;
-var maxHeight = 500;
-var maxWidth = 400;
+var maxHeight = 600;
+var maxWidth = 800;
 
 var background = document.getElementById("background");
 var bgd = background.getContext("2d");
@@ -47,9 +47,9 @@ function main() {
                 bg = new Image();
                 bg.crossOrigin = "Anonymous";
                 bg.src = file;
-                imgSize = adjustImage(bg.height, bg.width);
-                setCanvas(imgSize.h, imgSize.w);
                 bg.onload = function() {
+                    imgSize = adjustImage(bg.height, bg.width);
+                    setCanvas(imgSize.h, imgSize.w);
                     bgd.drawImage(bg, 0, 0, imgSize.w, imgSize.h);
                 }
             }
