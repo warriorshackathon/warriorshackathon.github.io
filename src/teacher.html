@@ -1,0 +1,139 @@
+<html>
+  <head>
+    <title>Draw it Out - Teacher Page</title>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
+	  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- Firebase -->
+    <script src="scripts/teacher.js"></script><script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-database.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+
+    <!-- Local files -->
+    <script src="scripts/teacher.js"></script>
+    <link rel="stylesheet" href="styles/teacher.css"></link>
+  </head>
+  <body>
+    <div id="teacher-main" class="container-fluid">
+      <div class="page-header">
+        <h1>Draw it Out! <br/><small>Upload a picture and send it out for your students to edit</small></h1>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="media">
+            <label class="btn btn-file" role="button" href="#">
+              <input type="file" accept="image/*" onchange="readURL(this);" style="display:none" /> <br/>
+              <img id="teacherImg" class="media-object" src="resources/uploadimage.jpg" alt="teacher uploaded image" />
+            </label>
+          </div>
+
+          <br/>
+
+          <div class="input-group input-group-lg">
+            <input type="text" id="teacherInstructions" maxlength="100" class="form-control" placeholder="Enter your instructions for the students here">
+            <input type="text" id="sessionId" class="form-control" placeholder="Session ID (unique code for students to connect)" value="Class1" style="display: none;">
+            <span class="input-group-btn">
+              <button id="sendImageButton" class="btn btn-default disabled" type="button" onclick="startSession()">Send!</button>
+            </span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <ul class="list-group">
+           <li class="list-group-item btn-default">Math<span class="badge">3</span>
+            <div class="list-group-item-inner"><br/>
+              <a class="btn btn-default btn-math" role="button" onclick="updateImageFromTemplate('resources/templates/graph.jpg')">
+                <img class="media-object" src="resources/templates/graph.jpg" alt="graph" style="width:80; height: 100"/>
+              </a>
+              <a class="btn btn-default btn-math" role="button" onclick="updateImageFromTemplate('resources/templates/shapes.jpg')">
+                <img class="media-object" src="resources/templates/shapes.jpg" alt="shapes" style="width:130; height: 100"/>
+              </a>
+              <a class="btn btn-default btn-math" role="button" onclick="updateImageFromTemplate('resources/templates/multiplication.jpg')">
+                <img class="media-object" src="resources/templates/multiplication.jpg" alt="multiplication" style="width:100; height: 100"/>
+              </a>
+            </div>
+           </li>
+           <li class="list-group-item btn-default">Sciences<span class="badge">4</span>
+            <div class="list-group-item-inner"><br/>
+              <a class="btn btn-default btn-sciences" role="button" onclick="updateImageFromTemplate('resources/templates/body.jpg')">
+                <img class="media-object" src="resources/templates/body.jpg" alt="body" style="width:80; height: 100"/>
+              </a>
+              <a class="btn btn-default btn-sciences" role="button" onclick="updateImageFromTemplate('resources/templates/physics.jpg')">
+                <img class="media-object" src="resources/templates/physics.jpg" alt="physics" style="width:130; height: 100"/>
+              </a>
+              <a class="btn btn-default btn-sciences" role="button" onclick="updateImageFromTemplate('resources/templates/cell.jpg')">
+                <img class="media-object" src="resources/templates/cell.jpg" alt="cell" style="width:110; height: 100"/>
+              </a>
+              <a class="btn btn-default btn-sciences" role="button" onclick="updateImageFromTemplate('resources/templates/periodic-table.jpg')">
+                <img class="media-object" src="resources/templates/periodic-table.jpg" alt="periodic-table" style="width:140; height: 100"/>
+              </a>
+            </div>
+           </li>
+           <li class="list-group-item btn-default">Social Studies<span class="badge">3</span>
+            <div class="list-group-item-inner"><br/>
+              <a class="btn btn-default btn-social" role="button" onclick="updateImageFromTemplate('resources/templates/map.jpg')">
+                <img class="media-object" src="resources/templates/map.jpg" alt="map" style="width:140; height: 100"/>
+              </a>
+              <a class="btn btn-default btn-social" role="button" onclick="updateImageFromTemplate('resources/templates/canada.jpg')">
+                <img class="media-object" src="resources/templates/canada.jpg" alt="canada" style="width:130; height: 100"/>
+              </a>
+              <a class="btn btn-default btn-social" role="button" onclick="updateImageFromTemplate('resources/templates/econ.jpg')">
+                <img class="media-object" src="resources/templates/econ.jpg" alt="econ" style="width:110; height: 100"/>
+              </a>
+            </div>
+           </li>
+           <li class="list-group-item btn-default">Arts<span class="badge">2</span>
+             <div class="list-group-item-inner"><br/>
+              <a class="btn btn-default btn-arts" role="button" onclick="updateImageFromTemplate('resources/templates/music.jpg')">
+                <img class="media-object" src="resources/templates/music.jpg" alt="music" style="width:160; height: 100"/>
+              </a>
+              <a class="btn btn-default btn-arts" role="button" onclick="updateImageFromTemplate('resources/templates/color.jpg')">
+                <img class="media-object" src="resources/templates/color.jpg" alt="color" style="width:70; height: 100"/>
+              </a>
+             </div>
+           </li>
+           <li class="list-group-item btn-default">General<span class="badge">3</span>
+             <div class="list-group-item-inner"><br/>
+              <a class="btn btn-default btn-general" role="button" onclick="updateImageFromTemplate('resources/templates/white.jpg')">
+                <img class="media-object" src="resources/templates/white.jpg" alt="white" style="width:100; height: 100"/>
+              </a>
+              <a class="btn btn-default btn-general" role="button" onclick="updateImageFromTemplate('resources/templates/venn-diagram.jpg')">
+                <img class="media-object" src="resources/templates/venn-diagram.jpg" alt="venn-diagram" style="width:160; height: 100"/>
+              </a>
+              <a class="btn btn-default btn-general" role="button" onclick="updateImageFromTemplate('resources/templates/swot.jpg')">
+                <img class="media-object" src="resources/templates/swot.jpg" alt="swot" style="width:100; height: 100"/>
+              </a>
+             </div>
+           </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODO: remove this once complete work flow is set -->
+    <div id = 'teacher-review' style = 'display: none' class="container-fluid">
+      <div class="page-header">
+        <h1>Draw it Out! <br/><small>Review your students responses and export to PDF</small></h1>
+      </div>
+      <div class ='teacher-review'>
+        <h3 id='teacherReviewSessionName'></h3>
+        <h3 id='lessonCount'></h3>
+        <button class="btn btn-primary btn-lg" onclick="resetActivity()">Reset</button>
+        <button class="btn btn-primary btn-lg" onclick="downloadPDF()">Export to PDF</button>
+      </div>
+      <span id ="reviewElements">
+      </span>
+    </div>
+  </body>
+</html>
