@@ -67,7 +67,7 @@ function main() {
                     }
                     else if(e.target.id == 'Finish'){
                         combineCanvases();
-                    } 
+                    }
                     });
 
                 canvas.addEventListener('mousedown', function(e) {
