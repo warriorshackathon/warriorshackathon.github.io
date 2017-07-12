@@ -24,8 +24,6 @@
     <!-- Local files -->
     <link rel="stylesheet" href="styles/showcase.css"/>
     <script src="scripts/showcase.js"></script>
-    <script src="scripts/teacher.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
   </head>
   <body>
     <div class = "container-fluid">
@@ -36,6 +34,11 @@
       <div id="showcase">
 
       </div>
+      <span>
+        <input id = 'sessionId'type="text" placeholder = "Session ID" />
+        <button class='btn btn-default btn-md' onclick="startStream()">Start</button>
+      </span>
+
     </div>
   </body>
 </html>
