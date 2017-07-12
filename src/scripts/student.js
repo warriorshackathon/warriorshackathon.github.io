@@ -10,7 +10,7 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
 var studentId = '';
-var studentName = getRandomName();
+var studentName = '';
 var sessionIdStudent = '';
 
 function main() {
@@ -159,7 +159,7 @@ function main() {
 }
 
 function studentLogin() {
-    studentName = $("#studentNameInput").val();
+    studentName = ($("#studentNameInput").val() == '') ? getRandomName() : $("#studentNameInput").val();
     sessionIdStudent = $("#sessionIdInput").val();
 
     $("#beforeLogin").css({'display':'none'});
