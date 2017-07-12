@@ -16,6 +16,10 @@ $(document).ready(function() {
 
 });
 
+$(window).on("unload", function(e) {
+  firebase.database().ref(sessionId + '/studentList').off();
+  firebase.database().ref(sessionId).remove();
+});
 
 function updateImageFromTemplate(imgPath) {
   toDataUrl(imgPath, function(myBase64) {
@@ -80,10 +84,9 @@ function downloadPDF() {
 
 function resetActivity() {
   console.log('reset');
-  sessionId = $("#sessionId").val();
-  firebase.database().ref('12345/studentList').off();
-  firebase.database().ref('12345/studentList').remove();
-  firebase.database().ref('12345').remove();
+  firebase.database().ref(sessionId + '/studentList').off();
+  firebase.database().ref(sessionId + '/studentList').remove();
+  firebase.database().ref(sessionId).remove();
   $('#teacher-review').hide();
   $('#teacher-main').show();
   var reviewElements = $('.review');
@@ -105,7 +108,6 @@ function makeid() {
 }
 
 function startSession() {
-
   if (!teacherImg) {
     alert("Button is disabled until an image is uploaded. To sent out a blank image, navigate to the 'General' template tab and select the first template");
     return;
@@ -113,7 +115,6 @@ function startSession() {
 
   lessonCount = 0;
   try {
-  	//sessionId = $("#sessionId").val();
       var config = {
         apiKey: "AIzaSyCJd8QeVygCdNRsURjM-pB-MIfaq7itALs",
         authDomain: "warriors-8d7c1.firebaseapp.com",
@@ -128,7 +129,7 @@ function startSession() {
     console.log('Firebase already init');
   }
   if (teacherImg) {
-
+    firebase.database().ref(sessionId).remove();
     teacherInstruction = $('#teacherInstructionsPost').val()
     $('#teacherReviewSessionName').html('Session ID: ' + sessionId)
 
@@ -153,12 +154,12 @@ function startSession() {
 }
 function endStream() {
   $('#streamBtn').hide();
-  firebase.database().ref('12345/stream').remove();
+  firebase.database().ref('sessionId/stream').remove();
 }
 
 function stream() {
   imgsrc = $('.modal-body')[lessonCount-1].innerHTML;
   name = $('.modal-title')[lessonCount-1].innerHTML;
-  firebase.database().ref('12345/stream').set({imgsrc: imgsrc, name: name});
+  firebase.database().ref('sessionId/stream').set({imgsrc: imgsrc, name: name});
   $('#streamBtn').show();
 }
