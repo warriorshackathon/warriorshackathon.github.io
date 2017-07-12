@@ -26,6 +26,9 @@ function main() {
 
     firebase.initializeApp(config);
 
+    firebase.database().ref('/12345/teacherInstructions').on('value', function(snapshot) {
+        if (snapshot.val()) $("#teacherInstructionsGet").html(snapshot.val());
+    });
     firebase.database().ref('/12345/teacherbase64').on('value', function(snapshot) {
 
         //console.log(snapshot.val());
