@@ -26,7 +26,7 @@ function main() {
 
     firebase.initializeApp(config);
 
-    firebase.database().ref('/12345/').on('value', function(snapshot) {
+    firebase.database().ref('/12345/teacherbase64').on('value', function(snapshot) {
 
         console.log(snapshot.val());
         if(snapshot.val()) {
@@ -144,7 +144,7 @@ function main() {
         else {
             $('#source').show();
             $('#canvasId').hide();
-            
+
         }
     }
     else {
