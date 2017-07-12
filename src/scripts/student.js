@@ -26,7 +26,7 @@ function main() {
 
     firebase.initializeApp(config);
 
-    firebase.database().ref('/12345/teacherbase64').on('value', function(snapshot) {
+    firebase.database().ref('/123/teacherbase64').on('value', function(snapshot) {
 
         //console.log(snapshot.val());
         if (snapshot.val()) {
@@ -150,9 +150,9 @@ function combineCanvases(){
     bgd.drawImage(canvas,0,0);
     var dataURL = background.toDataURL('jpg');
     if (studentId) {
-        firebase.database().ref('/12345/studentList/'+studentId.path.o[2]).set({studentImg: dataURL, name: studentName})
+        firebase.database().ref('/123/studentList/'+studentId.path.o[2]).set({studentImg: dataURL, name: studentName})
     } else {
-        studentId = firebase.database().ref('/12345/studentList/').push({studentImg: dataURL, name: studentName})
+        studentId = firebase.database().ref('/123/studentList/').push({studentImg: dataURL, name: studentName})
     }
 }
 
