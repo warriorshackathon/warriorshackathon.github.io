@@ -16,7 +16,7 @@ var studentName = getRandomName();
 main();
 
 function main() {
-
+    
     var config = {
         apiKey: "AIzaSyCJd8QeVygCdNRsURjM-pB-MIfaq7itALs",
         authDomain: "warriors-8d7c1.firebaseapp.com",

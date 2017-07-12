@@ -25,9 +25,11 @@
       <a class="btn btn-primary btn-lg" href="#" onclick="studentButtonClick()" role="button">Student</a>
       </p>
       <div class="input-group col-lg-4" style="display:none;">
-        <input id="studentNameText" type="text" class="form-control" placeholder="Student Name" aria-describedby="basic-addon2">
-        <input id="sessionIdText" type="text" class="form-control" placeholder="Session Id" aria-describedby="basic-addon2">
-        <button class="btn btn-primary" onclick="studentLogin()">Go</button>
+        <form action="src/student.html">
+          <input id="studentNameText" type="text" class="form-control" placeholder="Student Name" aria-describedby="basic-addon2">
+          <input id="sessionIdText" type="text" class="form-control" placeholder="Session Id" aria-describedby="basic-addon2">
+          <input type="submit" value="submit" class="btn btn-primary">
+        </form>
       </div>
     </div>
   </body>
