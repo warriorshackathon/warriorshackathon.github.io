@@ -4,7 +4,8 @@ var lessonCount = 0;
 $(document).ready(function() {
 
   $('#teacherReviewSessionName').html('Session ID: ' + sessionId);
-
+  sessionId = makeid()
+  $('#sessionIdDiv').html("Session Id: "+sessionId)
   $('.list-group-item').click(function() {
     $('.list-group-item .list-group-item-inner').css({'display': 'none'});
     $(this).find('.list-group-item-inner').css({'display': 'block'});
@@ -14,6 +15,7 @@ $(document).ready(function() {
   });
 
 });
+
 
 function updateImageFromTemplate(imgPath) {
   toDataUrl(imgPath, function(myBase64) {
@@ -79,9 +81,9 @@ function downloadPDF() {
 function resetActivity() {
   console.log('reset');
   sessionId = $("#sessionId").val();
-  firebase.database().ref('123/studentList').off();
-  firebase.database().ref('123/studentList').remove();
-  firebase.database().ref('123').remove();
+  firebase.database().ref('12345/studentList').off();
+  firebase.database().ref('12345/studentList').remove();
+  firebase.database().ref('12345').remove();
   $('#teacher-review').hide();
   $('#teacher-main').show();
   var reviewElements = $('.review');
@@ -90,6 +92,16 @@ function resetActivity() {
   for (; i < rem.length; i++)
     rem[i].parentNode.removeChild(rem[i]);
   updateImageFromTemplate('resources/uploadImage.jpg');
+}
+
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
 }
 
 function startSession() {
@@ -101,7 +113,7 @@ function startSession() {
 
   lessonCount = 0;
   try {
-  	sessionId = $("#sessionId").val();
+  	//sessionId = $("#sessionId").val();
       var config = {
         apiKey: "AIzaSyCJd8QeVygCdNRsURjM-pB-MIfaq7itALs",
         authDomain: "warriors-8d7c1.firebaseapp.com",
@@ -116,11 +128,16 @@ function startSession() {
     console.log('Firebase already init');
   }
   if (teacherImg) {
-    firebase.database().ref('12345').set({teacherbase64: teacherImg, teacherInstructions: $('#teacherInstructionsPost').val()});
-    firebase.database().ref('12345/studentList').on("child_added", function(snapshot, prevChildKey) {
+
+    teacherInstruction = $('#teacherInstructionsPost').val()
+    $('#teacherReviewSessionName').html('Session ID: ' + sessionId)
+
+    firebase.database().ref(sessionId).set({teacherbase64: teacherImg, teacherInstructions: teacherInstruction});
+    firebase.database().ref(sessionId+'/studentList').on("child_added", function(snapshot, prevChildKey) {
         $('#teacher-review').show();
         $('#teacher-main').hide();
         $('#lessonCount').html('Submissions: '+ (lessonCount + 1));
+
         var image = new Image();
         image.src = snapshot.val().studentImg;
 
