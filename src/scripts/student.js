@@ -185,13 +185,15 @@ function setCanvas(height, width) {
 function getMousePos(pointer) {
     var rect = canvas.getBoundingClientRect();
     return {
-        x: pointer.pageX - rect.left,
-        y: pointer.pageY - rect.top
+        x: (pointer.pageX - rect.left) / (rect.right - rect.left) * canvas.width,
+        y: (pointer.pageY - rect.top) / (rect.bottom - rect.top) * canvas.height
     };
 }
 
 function updateAndDraw(e) {
     mousePos = getMousePos(e);
+    console.log(mousePos.x)
+    console.log(mousePos.y)
     drawPositions.push([mousePos.x, mousePos.y]);
     drawLine();
 }
