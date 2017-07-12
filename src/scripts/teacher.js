@@ -1,6 +1,6 @@
 var teacherImg;
 var sessionId;
-
+var lessonCount = 0;
 $(document).ready(function() {
 
   $('#teacherReviewSessionName').html('Session ID: ' + sessionId);
@@ -81,9 +81,9 @@ function downloadPDF() {
 function resetActivity() {
   console.log('reset');
   sessionId = $("#sessionId").val();
-  firebase.database().ref('12346/studentList').off();
-  firebase.database().ref('12346/studentList').remove();
-  firebase.database().ref('12346').remove();
+  firebase.database().ref('12345/studentList').off();
+  firebase.database().ref('12345/studentList').remove();
+  firebase.database().ref('12345').remove();
   $('#teacher-review').hide();
   $('#teacher-main').show();
   var reviewElements = $('.review');
@@ -110,8 +110,8 @@ function startSession() {
     alert("Button is disabled until an image is uploaded. To sent out a blank image, navigate to the 'General' template tab and select the first template");
     return;
   }
-  
-  var lessonCount = 0;
+
+  lessonCount = 0;
   try {
   	//sessionId = $("#sessionId").val();
       var config = {
@@ -128,20 +128,20 @@ function startSession() {
     console.log('Firebase already init');
   }
   if (teacherImg) {
-    
+
     teacherInstruction = $('#teacherInstructionsPost').val()
     $('#teacherReviewSessionName').html('Session ID: ' + sessionId)
-    
+
     firebase.database().ref(sessionId).set({teacherbase64: teacherImg, teacherInstructions: teacherInstruction});
     firebase.database().ref(sessionId+'/studentList').on("child_added", function(snapshot, prevChildKey) {
         $('#teacher-review').show();
         $('#teacher-main').hide();
         $('#lessonCount').html('Submissions: '+ (lessonCount + 1));
-        
+
         var image = new Image();
         image.src = snapshot.val().studentImg;
 
-        var modal = '<div id="' + lessonCount + 'myModal" class="modal fade" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title">'+ snapshot.val().name +'</h4></div><div class="modal-body">'+ image.outerHTML +'</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>'
+        var modal = '<div id="' + lessonCount + 'myModal" class="modal fade" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close modalBtn" data-dismiss="modal">&times;</button><button type="button" class="close" onclick="stream()"><i class="fa fa-podcast" aria-hidden="true"></i></button><h4 class="modal-title">'+ snapshot.val().name +'</h4></div><div class="modal-body">'+ image.outerHTML +'</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>'
 
         var newDiv = "<div class='review' data-toggle='modal' data-target = '#" + lessonCount + "myModal'>" + image.outerHTML + "<p class='text-review'>" + snapshot.val().name + "</p></div>"
         lessonCount++;
@@ -150,4 +150,15 @@ function startSession() {
 
       });
     }
+}
+function endStream() {
+  $('#streamBtn').hide();
+  firebase.database().ref('12345/stream').remove();
+}
+
+function stream() {
+  imgsrc = $('.modal-body')[lessonCount-1].innerHTML;
+  name = $('.modal-title')[lessonCount-1].innerHTML;
+  firebase.database().ref('12345/stream').set({imgsrc: imgsrc, name: name});
+  $('#streamBtn').show();
 }
