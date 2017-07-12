@@ -9,6 +9,7 @@ var bgd = background.getContext("2d");
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
+var disableInk = false;
 var studentId = '';
 var studentName = '';
 var sessionIdStudent = '';
@@ -69,24 +70,18 @@ function main() {
                 canvas.addEventListener('mousedown', function(e) {
                     if(e.button == 0){
                         mousePos = getMousePos(e);
-                        if (type == 'Ink') {
+                        if (!disableInk &&type == 'Ink') {
                             updateAndDraw(mousePos.x, mousePos.y);
                             canvas.onmousemove = function(e) {
                                 mousePos = getMousePos(e);
                                 updateAndDraw(mousePos.x, mousePos.y);
                             }
-                        } else if (type == 'Erase'){
+                        } 
+                        if (!disableInk && type == 'Erase'){
                             eraseContent(mousePos.x, mousePos.y);
                             canvas.onmousemove = function(e) {
                                 mousePos = getMousePos(e);
                                 eraseContent(mousePos.x, mousePos.y);
-                            }
-                        }
-                        else if (type == 'Highlight'){
-                            highlight(mousePos.x, mousePos.y);
-                            canvas.onmousemove = function(e) {
-                                mousePos = getMousePos(e);
-                                highlight(mousePos.x, mousePos.y);
                             }
                         }
                     }
@@ -95,27 +90,20 @@ function main() {
                 canvas.addEventListener('touchstart', function(e) {
                     e.preventDefault();
                     touchPos = getTouchPos(e);
-                    if (type == 'Ink') {
+                    if (!disableInk && type == 'Ink') {
                         updateAndDraw(touchPos.x, touchPos.y);
                         canvas.ontouchmove = function(e) {
                             e.preventDefault();
                             touchPos = getTouchPos(e);
                             updateAndDraw(touchPos.x, touchPos.y);
                         }
-                    } else if (type == 'Erase'){
+                    } 
+                    if (!disableInk && type == 'Erase'){
                         eraseContent(touchPos.x, touchPos.y);
                         canvas.ontouchmove = function(e) {
                             e.preventDefault();
                             touchPos = getTouchPos(e);
                             eraseContent(touchPos.x, touchPos.y);
-                        }
-                    }
-                    else if (type == 'Highlight'){
-                        highlight(touchPos.x, touchPos.y);
-                        canvas.ontouchmove = function(e) {
-                            e.preventDefault();
-                            touchPos = getTouchPos(e);
-                            highlight(touchPos.x, touchPos.y);
                         }
                     }
                 });
@@ -294,8 +282,10 @@ function getRandomName() {
 function finishActivity() {
     $(".beforeSubmit").css({'display':'none'});
     $(".afterSubmit").css({'display':'block'});
+    disableInk = true;
 }
 function startActivity() {
     $(".beforeSubmit").css({'display':'block'});
     $(".afterSubmit").css({'display':'none'});
+    disableInk = false;
 }
