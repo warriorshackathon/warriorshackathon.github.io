@@ -2,8 +2,8 @@ var drawPositions = [];
 var type = 'Ink';
 var InkColor = 'black';
 var InkWidth = 5;
-var maxHeight = 500;
-var maxWidth = 400;
+var maxHeight = 600;
+var maxWidth = 800;
 
 var background = document.getElementById("background");
 var bgd = background.getContext("2d");
@@ -47,15 +47,19 @@ function main() {
                 bg = new Image();
                 bg.crossOrigin = "Anonymous";
                 bg.src = file;
-                imgSize = adjustImage(bg.height, bg.width);
-                setCanvas(imgSize.h, imgSize.w);
                 bg.onload = function() {
+                    imgSize = adjustImage(bg.height, bg.width);
+                    setCanvas(imgSize.h, imgSize.w);
                     bgd.drawImage(bg, 0, 0, imgSize.w, imgSize.h);
                 }
             }
+            changeWidth(InkWidth); 
             document.querySelectorAll('button').forEach(function(button) {
                 button.addEventListener('click', function(e) {
-                    if (e.target.id != 'Finish') {
+                    if(e.target.id == 'red' || 'blue' || 'black' || 'green'){
+                        setDefault(e.target.id,InkWidth);
+                    }
+                    else if (e.target.id != 'Finish') {
                         if (type=='Highlight'){
                             ctx.globalAlpha = 1;
                         }
@@ -63,12 +67,11 @@ function main() {
                     }
                     else if(e.target.id == 'Finish'){
                         combineCanvases();
-                    }
-                });
+                    } 
+                    });
 
                 canvas.addEventListener('mousedown', function(e) {
                     if (type == 'Ink') {
-                        setDefault(InkColor, InkWidth);
                         updateAndDraw(e);
                         canvas.onmousemove = function(e) {
                             updateAndDraw(e);
@@ -183,8 +186,8 @@ function setCanvas(height, width) {
 function getMousePos(pointer) {
     var rect = canvas.getBoundingClientRect();
     return {
-        x: pointer.clientX - rect.left,
-        y: pointer.clientY - rect.top
+        x: pointer.pageX - rect.left,
+        y: pointer.pageY - rect.top
     };
 }
 
