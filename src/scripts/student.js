@@ -88,24 +88,26 @@ function main() {
                 });
 
                 canvas.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
+                    //e.preventDefault();
+                    alert("I am an alert box!");
                     if (type == 'Ink') {
                         updateAndDraw(e);
                         canvas.ontouchmove = function(e) {
-                            e.preventDefault();
+                            // e.preventDefault();
+                            alert("I am an alert box!");
                             updateAndDraw(e);
                         }
                     } else if (type == 'Erase'){
                         eraseContent(e);
                         canvas.ontouchmove = function(e) {
-                            e.preventDefault();
+                            // e.preventDefault();
                             eraseContent(e);
                         }
                     }
                     else if (type == 'Highlight'){
                         highlight(e);
                         canvas.ontouchmove = function(e) {
-                            e.preventDefault();
+                            // e.preventDefault();
                             highlight(e);
                         }
                     }
