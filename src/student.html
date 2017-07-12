@@ -29,7 +29,7 @@
     </div>
     <div id="types">
       <i>
-        <button onclick="myFunction()" class="btn btn-primary btn-lg dropbtn" id="Ink">
+        <button class="btn btn-primary btn-lg dropbtn" id="Ink">
           Ink
         </button>
       <i>
@@ -47,18 +47,13 @@
           Text
         </button>
       </i>
-      <i>
-        <button class="btn btn-primary btn-lg" id="Finish">
-          Finish
-        </button>
-      </i>
     </div>
     <div>
       <img src="" id="myimage" />
     </div>
     <span>
       Name: <input type="text" name="FirstName" value="" id="nameInput"><br>
-      <button class="nameBtn" onclick="addName()">Submit</button>
+      <button class="nameBtn btn btn-primary btn-lg" id="Finish" onclick="addName()">Submit</button>
     </span>
   </div>
   <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-app.js"></script>
