@@ -48,7 +48,8 @@ function main() {
             }
                 document.querySelectorAll('button').forEach(function(button) {
                     button.addEventListener('click', function(e) {
-                        if (e.target.parentNode.parentNode.id == 'types' && e.target.id != 'Finish') {
+                        if (e.target.id != 'Finish') {
+                            console.log('inner');
                             if (type=='Highlight'){
                                 ctx.globalAlpha = 1;
                             }
@@ -57,15 +58,8 @@ function main() {
                         else if(e.target.id == 'Finish'){
                             combineCanvases();
                         }
-                        else if(e.target.parentNode.id == 'colors'){
-
-                        }
-                        else if(e.target.parentNode.id == 'width'){
-
-                        }
                     });
-
-
+                    
                     canvas.addEventListener('mousedown', function(e) {
                         if (type == 'Ink') {
                             setDefault(InkColor, InkWidth);
