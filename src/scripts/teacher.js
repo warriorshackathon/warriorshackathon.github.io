@@ -129,8 +129,6 @@ function startSession() {
   }
   if (teacherImg) {
     
-
-    
     teacherInstruction = $('#teacherInstructionsPost').val()
     $('#teacherReviewSessionName').html('Session ID: ' + sessionId)
     
@@ -139,7 +137,6 @@ function startSession() {
         $('#teacher-review').show();
         $('#teacher-main').hide();
         $('#lessonCount').html('Submissions: '+ (lessonCount + 1));
-        
         
         var image = new Image();
         image.src = snapshot.val().studentImg;
