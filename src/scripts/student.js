@@ -130,8 +130,11 @@ function main() {
                 });
 
                 canvas.addEventListener("touchend", function(e) {
+                    e.preventDefault();
                     if (type == 'Ink') {
+                        drawPositions = [];
                         canvas.ontouchmove = function(e) {
+                            e.preventDefault();
                             drawPositions = [];
                         }
                     } else {
