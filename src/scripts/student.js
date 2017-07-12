@@ -240,7 +240,7 @@ function convertToPDF(pdfurl, pageNum) {
 }
 
 function addName() {
-    document.getElementById("nameInput").value = newName
+    newName = document.getElementById("nameInput").value
     if (newName != '')  {
         studentName = newName
     }
