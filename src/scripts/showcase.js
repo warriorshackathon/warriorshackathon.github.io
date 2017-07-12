@@ -1,6 +1,5 @@
 $( document ).ready(function() {
   try {
-    sessionId = $("#sessionId").val();
       var config = {
         apiKey: "AIzaSyCJd8QeVygCdNRsURjM-pB-MIfaq7itALs",
         authDomain: "warriors-8d7c1.firebaseapp.com",
@@ -16,6 +15,7 @@ $( document ).ready(function() {
   }
     firebase.database().ref('12345/stream').on("value", function(snapshot) {
       //ERROR handle
+      console.log(sessionId);
       if (snapshot.val()) {
         imgsrc = snapshot.val().imgsrc;
         name = snapshot.val().name;
