@@ -149,6 +149,12 @@ function main() {
     })
 }
 
+function studentLogin() {
+    
+    alert($("#studentNameInput").val());
+    alert($("#sessionIdInput").val());
+}
+
 function combineCanvases(){
     bgd.drawImage(canvas,0,0);
     var dataURL = background.toDataURL('jpg');

@@ -16,7 +16,18 @@
 
 </head>
 <body>
-  <div class='container-fluid'>
+  <div id="beforeLogin" class='jumbotron container-fluid'>
+    <div class="page-header">
+      <h1>Draw it Out!</h1>
+    </div>
+    <div class="input-group input-group-lg col-lg-3">
+      <input type="text" id="studentNameInput" maxlength="20" class="form-control" placeholder="Student Name">
+      <input type="text" id="sessionIdInput" maxlenght="20" class="form-control" placeholder="Session ID">
+      <button id="studentLoginButton" class="btn btn-default" type="button" onclick="studentLogin()">Go</button>
+    </div>
+  </div>
+
+  <div id="afterLogin" class='container-fluid' style="display:none">
     <div class="page-header">
       <h1>Draw it Out! <br/><small id="teacherInstructionsGet"></small></h1>
     </div>
