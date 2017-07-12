@@ -28,10 +28,9 @@ function main() {
 
     firebase.database().ref('/12345/teacherbase64').on('value', function(snapshot) {
 
-        console.log(snapshot.val());
-        if(snapshot.val()) {
-        if (snapshot.val().teacherbase64) {
-            file = snapshot.val().teacherbase64;
+        //console.log(snapshot.val());
+        if (snapshot.val()) {
+            file = snapshot.val();
             $('#source').hide();
             $('#canvasId').show();
             if (file == '') {
@@ -146,12 +145,6 @@ function main() {
             $('#canvasId').hide();
 
         }
-    }
-    else {
-        $('#source').show();
-        $('#canvasId').hide();
-
-    }
     })
 }
 
