@@ -84,11 +84,13 @@ function downloadPDF() {
 
 function resetActivity() {
   console.log('reset');
+  endStream();
   firebase.database().ref(sessionId + '/studentList').off();
   firebase.database().ref(sessionId + '/studentList').remove();
   firebase.database().ref(sessionId).remove();
   $('#teacher-review').hide();
   $('#teacher-main').show();
+  $('#lessonCount').hide();
   var reviewElements = $('.review');
   reviewElements.remove();
   var rem = document.querySelectorAll("[id*='myModal']"), i = 0;
@@ -137,6 +139,7 @@ function startSession() {
 
     firebase.database().ref(sessionId).set({teacherbase64: teacherImg, teacherInstructions: teacherInstruction});
     firebase.database().ref(sessionId+'/studentList').on("child_added", function(snapshot, prevChildKey) {
+        $('#lessonCount').show();
         $('#lessonCount').html('Submissions: '+ (lessonCount + 1));
 
         var image = new Image();
