@@ -9,6 +9,9 @@ var bgd = background.getContext("2d");
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
+var maxHeight = window.screen.availHeight -100;
+var maxWidth = window.screen.availWidth-100;
+
 var studentId = '';
 var studentName = '';
 var sessionIdStudent = '';
