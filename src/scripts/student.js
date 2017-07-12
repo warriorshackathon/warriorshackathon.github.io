@@ -9,7 +9,8 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
 var studentId = '';
-var studentName = 'Defaulto';
+
+var studentName = getRandomName();
 
 main();
 
@@ -259,4 +260,10 @@ function convertToPDF(pdfurl, pageNum) {
 
 function addName() {
     studentName = document.getElementById("nameInput").value
+}
+
+function getRandomName() {
+    var names = ["Amy","Arnold","John","Keith","Ken","Sharon","Amanda","Brooke","Diana","Ben","Mary","Brian","Simon","Erik","Summer","Laura"]
+    var x = Math.floor((Math.random() * names.length) + 1);
+    return names[x]
 }
