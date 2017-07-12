@@ -42,34 +42,20 @@
         Your browser does not support the canvas element.
       </canvas>
     </div>
-    <div id="types">
-      <i>
-        <button class="btn btn-primary btn-lg dropbtn" id="Erase">
-          Erase
-        </button>
-      <i>
-        <button class="btn btn-primary btn-lg" id="Highlight">
-          Highlight
-        </button>
-      </i>
-      <i>
-        <button class="btn btn-primary btn-lg" id="Ink">
-          Ink
-        </button>
-      </i>
-      <i>
-        <button class="btn btn-default btn-lg" id="red">Red</button>
-        <button class="btn btn-default btn-lg" id="black">Black</button>
-        <button class="btn btn-default btn-lg" id="blue">Blue</button>
-        <button class="btn btn-default btn-lg" id="green">Green</button>
-      </i>
+    <br>
+    <div id="types" class="btn-group">
+        <button class="btn btn-default btn-lg glyphicon glyphicon-pencil" id="black"></button>
+        <button class="btn btn-danger btn-lg glyphicon glyphicon-pencil" id="red"></button>
+        <button class="btn btn-primary btn-lg glyphicon glyphicon-pencil" id="blue"></button>
+        <button class="btn btn-success btn-lg glyphicon glyphicon-pencil" id="green"></button>
+        <button class="btn btn-default btn-lg glyphicon glyphicon-erase" id="Erase"></button>
     </div>
+
     <div>
       <img src="" id="myimage" />
     </div>
     <br>
     <span>
-      Name: <input type="text" name="FirstName" value="" id="nameInput"><br>
       <button class="nameBtn btn btn-primary btn-lg" id="Finish" onclick="addName()">Submit</button>
     </span>
   </div>

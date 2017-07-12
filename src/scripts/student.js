@@ -1,6 +1,5 @@
 var drawPositions = [];
 var type = 'Ink';
-var InkColor = 'black';
 var InkWidth = 5;
 var maxHeight = 600;
 var maxWidth = 800;
@@ -16,7 +15,7 @@ var studentName = getRandomName();
 main();
 
 function main() {
-    
+
     var config = {
         apiKey: "AIzaSyCJd8QeVygCdNRsURjM-pB-MIfaq7itALs",
         authDomain: "warriors-8d7c1.firebaseapp.com",
@@ -59,57 +58,64 @@ function main() {
                         setDefault(e.target.id,InkWidth);
                     }
                     else if (e.target.id != 'Finish') {
-                        console.log(e.target.innerText)
                         if (type=='Highlight'){
                             ctx.globalAlpha = 1;
                         }
-                        type = e.target.innerText;
+                        type = e.target.id;
                     }
                     else if(e.target.id == 'Finish'){
                         combineCanvases();
                     }
-                    });
+                });
 
                 canvas.addEventListener('mousedown', function(e) {
+                    mousePos = getMousePos(e);
                     if (type == 'Ink') {
-                        updateAndDraw(e);
+                        updateAndDraw(mousePos.x, mousePos.y);
                         canvas.onmousemove = function(e) {
-                            updateAndDraw(e);
+                            mousePos = getMousePos(e);
+                            updateAndDraw(mousePos.x, mousePos.y);
                         }
                     } else if (type == 'Erase'){
-                        eraseContent(e);
+                        eraseContent(mousePos.x, mousePos.y);
                         canvas.onmousemove = function(e) {
-                            eraseContent(e);
+                            mousePos = getMousePos(e);
+                            eraseContent(mousePos.x, mousePos.y);
                         }
                     }
                     else if (type == 'Highlight'){
-                        highlight(e);
+                        highlight(mousePos.x, mousePos.y);
                         canvas.onmousemove = function(e) {
-                            highlight(e);
+                            mousePos = getMousePos(e);
+                            highlight(mousePos.x, mousePos.y);
                         }
                     }
                 });
 
                 canvas.addEventListener('touchstart', function(e) {
                     e.preventDefault();
+                    touchPos = getTouchPos(e);
                     if (type == 'Ink') {
-                        updateAndDraw(e);
+                        updateAndDraw(touchPos.x, touchPos.y);
                         canvas.ontouchmove = function(e) {
                             e.preventDefault();
-                            updateAndDraw(e);
+                            touchPos = getTouchPos(e);
+                            updateAndDraw(touchPos.x, touchPos.y);
                         }
                     } else if (type == 'Erase'){
-                        eraseContent(e);
+                        eraseContent(touchPos.x, touchPos.y);
                         canvas.ontouchmove = function(e) {
                             e.preventDefault();
-                            eraseContent(e);
+                            touchPos = getTouchPos(e);
+                            eraseContent(touchPos.x, touchPos.y);
                         }
                     }
                     else if (type == 'Highlight'){
-                        highlight(e);
+                        highlight(touchPos.x, touchPos.y);
                         canvas.ontouchmove = function(e) {
                             e.preventDefault();
-                            highlight(e);
+                            touchPos = getTouchPos(e);
+                            highlight(touchPos.x, touchPos.y);
                         }
                     }
                 });
@@ -192,14 +198,21 @@ function setCanvas(height, width) {
 function getMousePos(pointer) {
     var rect = canvas.getBoundingClientRect();
     return {
-        x: (pointer.pageX - rect.left) / (rect.right - rect.left) * canvas.width,
-        y: (pointer.pageY - rect.top) / (rect.bottom - rect.top) * canvas.height
+        x: (pointer.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+        y: (pointer.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
     };
 }
 
-function updateAndDraw(e) {
-    mousePos = getMousePos(e);
-    drawPositions.push([mousePos.x, mousePos.y]);
+function getTouchPos(pointer) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: (pointer.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+        y: (pointer.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+    };
+}
+
+function updateAndDraw(posX, posY) {
+    drawPositions.push([posX, posY]);
     drawLine();
 }
 
@@ -221,11 +234,10 @@ function addText(pointer, text){
     ctx.fillText(text,mousePos.x,mousePos.y);
 }
 
-function highlight(pointer){
-    mousePos = getMousePos(pointer);
+function highlight(posX, posY){
     ctx.globalAlpha = 0.2;
     ctx.fillStyle = "yellow";
-    ctx.fillRect(mousePos.x - 5, mousePos.y - 5, 10, 10);
+    ctx.fillRect(posX - 5, posY - 5, 10, 10);
 }
 
 function changeColor(color){
@@ -236,9 +248,8 @@ function changeColor(color){
 function changeWidth(width){
     ctx.lineWidth=width;
 }
-function eraseContent(pointer) {
-    mousePos = getMousePos(pointer);
-    ctx.clearRect(mousePos.x - 5, mousePos.y - 5, 10, 10);
+function eraseContent(posX,posY) {
+    ctx.clearRect(posX - 5, posY - 5, 10, 10);
 }
 
 function convertToPDF(pdfurl, pageNum) {
