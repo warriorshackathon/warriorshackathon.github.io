@@ -89,13 +89,12 @@ function main() {
 
                 canvas.addEventListener('touchstart', function(e) {
                     //e.preventDefault();
-                    alert("I am an alert box!");
                     if (type == 'Ink') {
                         updateAndDraw(e);
                         canvas.ontouchmove = function(e) {
                             // e.preventDefault();
-                            alert("I am an alert box!");
                             updateAndDraw(e);
+                            alert("I am an alert box!");
                         }
                     } else if (type == 'Erase'){
                         eraseContent(e);
