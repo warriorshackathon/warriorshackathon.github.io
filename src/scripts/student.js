@@ -70,25 +70,27 @@ function main() {
                 });
 
                 canvas.addEventListener('mousedown', function(e) {
-                    mousePos = getMousePos(e);
-                    if (type == 'Ink') {
-                        updateAndDraw(mousePos.x, mousePos.y);
-                        canvas.onmousemove = function(e) {
-                            mousePos = getMousePos(e);
+                    if(e.button == 0){
+                        mousePos = getMousePos(e);
+                        if (type == 'Ink') {
                             updateAndDraw(mousePos.x, mousePos.y);
-                        }
-                    } else if (type == 'Erase'){
-                        eraseContent(mousePos.x, mousePos.y);
-                        canvas.onmousemove = function(e) {
-                            mousePos = getMousePos(e);
+                            canvas.onmousemove = function(e) {
+                                mousePos = getMousePos(e);
+                                updateAndDraw(mousePos.x, mousePos.y);
+                            }
+                        } else if (type == 'Erase'){
                             eraseContent(mousePos.x, mousePos.y);
+                            canvas.onmousemove = function(e) {
+                                mousePos = getMousePos(e);
+                                eraseContent(mousePos.x, mousePos.y);
+                            }
                         }
-                    }
-                    else if (type == 'Highlight'){
-                        highlight(mousePos.x, mousePos.y);
-                        canvas.onmousemove = function(e) {
-                            mousePos = getMousePos(e);
+                        else if (type == 'Highlight'){
                             highlight(mousePos.x, mousePos.y);
+                            canvas.onmousemove = function(e) {
+                                mousePos = getMousePos(e);
+                                highlight(mousePos.x, mousePos.y);
+                            }
                         }
                     }
                 });
