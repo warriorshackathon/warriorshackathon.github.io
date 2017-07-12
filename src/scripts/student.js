@@ -55,10 +55,11 @@ function main() {
             }
             document.querySelectorAll('button').forEach(function(button) {
                 button.addEventListener('click', function(e) {
-                    if(e.target.id == 'red' || 'blue' || 'black' || 'green'){
+                    if(e.target.id == 'red' || e.target.id == 'blue' || e.target.id == 'black' || e.target.id == 'green'){
                         setDefault(e.target.id,InkWidth);
                     }
                     else if (e.target.id != 'Finish') {
+                        console.log(e.target.innerText)
                         if (type=='Highlight'){
                             ctx.globalAlpha = 1;
                         }
@@ -192,8 +193,6 @@ function getMousePos(pointer) {
 
 function updateAndDraw(e) {
     mousePos = getMousePos(e);
-    console.log(mousePos.x)
-    console.log(mousePos.y)
     drawPositions.push([mousePos.x, mousePos.y]);
     drawLine();
 }
