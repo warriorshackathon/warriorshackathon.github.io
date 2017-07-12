@@ -58,7 +58,6 @@ function main() {
                         type = 'Ink';
                     }
                     else if (e.target.id != 'Finish') {
-                        console.log(e.target.id)
                         if (type=='Highlight'){
                             ctx.globalAlpha = 1;
                         }
