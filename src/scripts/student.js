@@ -53,9 +53,13 @@ function main() {
                     bgd.drawImage(bg, 0, 0, imgSize.w, imgSize.h);
                 }
             }
+            changeWidth(InkWidth); 
             document.querySelectorAll('button').forEach(function(button) {
                 button.addEventListener('click', function(e) {
-                    if (e.target.id != 'Finish') {
+                    if(e.target.id == 'red' || 'blue' || 'black' || 'green'){
+                        setDefault(e.target.id,InkWidth);
+                    }
+                    else if (e.target.id != 'Finish') {
                         if (type=='Highlight'){
                             ctx.globalAlpha = 1;
                         }
@@ -63,12 +67,11 @@ function main() {
                     }
                     else if(e.target.id == 'Finish'){
                         combineCanvases();
-                    }
-                });
+                    } 
+                    });
 
                 canvas.addEventListener('mousedown', function(e) {
                     if (type == 'Ink') {
-                        setDefault(InkColor, InkWidth);
                         updateAndDraw(e);
                         canvas.onmousemove = function(e) {
                             updateAndDraw(e);
