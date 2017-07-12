@@ -165,6 +165,7 @@ function studentLogin() {
 
     $("#beforeLogin").css({'display':'none'});
     $("#afterLogin").css({'display':'block'});
+    $("#studentSessionInfo").html("Student: " + studentName + "<br/> Session ID: " + sessionIdStudent);
 
     main();
 }
