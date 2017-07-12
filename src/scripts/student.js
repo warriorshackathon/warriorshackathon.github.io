@@ -55,8 +55,10 @@ function main() {
                 button.addEventListener('click', function(e) {
                     if(e.target.id == 'red' || e.target.id == 'blue' || e.target.id == 'black' || e.target.id == 'green'){
                         setDefault(e.target.id,InkWidth);
+                        type = 'Ink';
                     }
                     else if (e.target.id != 'Finish') {
+                        console.log(e.target.id)
                         if (type=='Highlight'){
                             ctx.globalAlpha = 1;
                         }
@@ -163,6 +165,7 @@ function studentLogin() {
 
     $("#beforeLogin").css({'display':'none'});
     $("#afterLogin").css({'display':'block'});
+    $("#studentSessionInfo").html("Student: " + studentName + "<br/> Session ID: " + sessionIdStudent);
 
     main();
 }
@@ -243,7 +246,7 @@ function addText(pointer, text){
 function highlight(posX, posY){
     ctx.globalAlpha = 0.2;
     ctx.fillStyle = "yellow";
-    ctx.fillRect(posX - 5, posY - 5, 10, 10);
+    ctx.fillRect(posX - 10, posY - 10, 20, 20);
 }
 
 function changeColor(color){
@@ -255,7 +258,7 @@ function changeWidth(width){
     ctx.lineWidth=width;
 }
 function eraseContent(posX,posY) {
-    ctx.clearRect(posX - 5, posY - 5, 10, 10);
+    ctx.clearRect(posX - 10, posY - 10, 20, 20);
 }
 
 function convertToPDF(pdfurl, pageNum) {
