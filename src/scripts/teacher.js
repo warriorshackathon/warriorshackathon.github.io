@@ -84,11 +84,13 @@ function downloadPDF() {
 
 function resetActivity() {
   console.log('reset');
+  endStream();
   firebase.database().ref(sessionId + '/studentList').off();
   firebase.database().ref(sessionId + '/studentList').remove();
   firebase.database().ref(sessionId).remove();
   $('#teacher-review').hide();
   $('#teacher-main').show();
+  $('#lessonCount').hide();
   var reviewElements = $('.review');
   reviewElements.remove();
   var rem = document.querySelectorAll("[id*='myModal']"), i = 0;
@@ -129,14 +131,15 @@ function startSession() {
     console.log('Firebase already init');
   }
   if (teacherImg) {
+    $('#teacher-review').show();
+    $('#teacher-main').hide();
     firebase.database().ref(sessionId).remove();
     teacherInstruction = $('#teacherInstructionsPost').val()
     $('#teacherReviewSessionName').html('Session ID: ' + sessionId)
 
     firebase.database().ref(sessionId).set({teacherbase64: teacherImg, teacherInstructions: teacherInstruction});
     firebase.database().ref(sessionId+'/studentList').on("child_added", function(snapshot, prevChildKey) {
-        $('#teacher-review').show();
-        $('#teacher-main').hide();
+        $('#lessonCount').show();
         $('#lessonCount').html('Submissions: '+ (lessonCount + 1));
 
         var image = new Image();
@@ -154,12 +157,12 @@ function startSession() {
 }
 function endStream() {
   $('#streamBtn').hide();
-  firebase.database().ref('sessionId/stream').remove();
+  firebase.database().ref(sessionId+ '/stream').remove();
 }
 
 function stream() {
   imgsrc = $('.modal-body')[lessonCount-1].innerHTML;
   name = $('.modal-title')[lessonCount-1].innerHTML;
-  firebase.database().ref('sessionId/stream').set({imgsrc: imgsrc, name: name});
+  firebase.database().ref(sessionId + '/stream').set({imgsrc: imgsrc, name: name});
   $('#streamBtn').show();
 }

@@ -1,19 +1,21 @@
-$( document ).ready(function() {
-  try {
-      var config = {
-        apiKey: "AIzaSyCJd8QeVygCdNRsURjM-pB-MIfaq7itALs",
-        authDomain: "warriors-8d7c1.firebaseapp.com",
-        databaseURL: "https://warriors-8d7c1.firebaseio.com",
-        projectId: "warriors-8d7c1",
-        storageBucket: "",
-        messagingSenderId: "860681092403"
-      };
-      firebase.initializeApp(config);
-  }
-  catch(err) {
-    console.log('Firebase already init');
-  }
-    firebase.database().ref('12345/stream').on("value", function(snapshot) {
+
+  function startStream() {
+    sessionId = $('#sessionId').val();
+    try {
+        var config = {
+          apiKey: "AIzaSyCJd8QeVygCdNRsURjM-pB-MIfaq7itALs",
+          authDomain: "warriors-8d7c1.firebaseapp.com",
+          databaseURL: "https://warriors-8d7c1.firebaseio.com",
+          projectId: "warriors-8d7c1",
+          storageBucket: "",
+          messagingSenderId: "860681092403"
+        };
+        firebase.initializeApp(config);
+    }
+    catch(err) {
+      console.log('Firebase already init');
+    }
+    firebase.database().ref(sessionId + '/stream').on("value", function(snapshot) {
       //ERROR handle
       console.log(sessionId);
       if (snapshot.val()) {
@@ -32,4 +34,4 @@ $( document ).ready(function() {
       }
 
     })
-});
+  }
