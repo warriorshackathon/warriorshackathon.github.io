@@ -55,7 +55,10 @@ function main() {
             }
             document.querySelectorAll('button').forEach(function(button) {
                 button.addEventListener('click', function(e) {
-                    if (e.target.id != 'Finish') {
+                    if(e.target.id == 'red' || 'blue' || 'black' || 'green'){
+                        setDefault(e.target.id,InkWidth);
+                    }
+                    else if (e.target.id != 'Finish') {
                         if (type=='Highlight'){
                             ctx.globalAlpha = 1;
                         }
@@ -63,12 +66,11 @@ function main() {
                     }
                     else if(e.target.id == 'Finish'){
                         combineCanvases();
-                    }
-                });
+                    } 
+                    });
 
                 canvas.addEventListener('mousedown', function(e) {
                     if (type == 'Ink') {
-                        setDefault(InkColor, InkWidth);
                         updateAndDraw(e);
                         canvas.onmousemove = function(e) {
                             updateAndDraw(e);
@@ -202,6 +204,7 @@ function drawLine() {
         ctx.moveTo(start[0], start[1]);
         ctx.lineTo(end[0], end[1]);
         ctx.closePath();
+        ctx.lineWidth=InkWidth;
         ctx.stroke();
     }
 }
