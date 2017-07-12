@@ -94,7 +94,6 @@ function main() {
                         canvas.ontouchmove = function(e) {
                             // e.preventDefault();
                             updateAndDraw(e);
-                            alert("I am an alert box!");
                         }
                     } else if (type == 'Erase'){
                         eraseContent(e);
@@ -184,8 +183,8 @@ function setCanvas(height, width) {
 function getMousePos(pointer) {
     var rect = canvas.getBoundingClientRect();
     return {
-        x: pointer.clientX - rect.left,
-        y: pointer.clientY - rect.top
+        x: pointer.pageX - rect.left,
+        y: pointer.pageY - rect.top
     };
 }
 
