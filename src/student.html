@@ -20,9 +20,9 @@
     <div class="page-header">
       <h1>Draw it Out!</h1>
     </div>
-    <div class="input-group input-group-lg col-lg-3">
+    <div class="input-group input-group-lg">
       <input type="text" id="studentNameInput" maxlength="20" class="form-control" placeholder="Student Name (random if left blank)">
-      <input type="tel" id="sessionIdInput" maxlength="20" class="form-control" placeholder="Session ID">
+      <input type="tel" id="sessionIdInput" maxlenght="20" class="form-control" placeholder="Session ID">
       <button id="studentLoginButton" class="btn btn-default" type="button" onclick="studentLogin()">Go</button>
     </div>
   </div>
@@ -31,7 +31,7 @@
     <div class="page-header beforeSubmit">
       <h1>Draw it Out!</h1><h4 id=studentSessionInfo></h4>
     </div>
-    <h3 id="teacherInstructionsGet"></h3>
+    <h3 id="teacherInstructionsGet" class="beforeSubmit"></h3>
     <div class='jumbotron container-fluid afterSubmit' style="display: none">
       <div class="page-header">
         <h1>Thanks for your submission!</h1>
@@ -52,7 +52,7 @@
       </canvas>
     </div>
     <br>
-    <div id="types" class="btn-group beforeSubmit beforeReady text-center">
+    <div id="types" class="btn-group beforeSubmit beforeReady">
         <button class="btn btn-default glyphicon glyphicon-pencil" id="black"></button>
         <button class="btn btn-danger glyphicon glyphicon-pencil" id="red"></button>
         <button class="btn btn-primary glyphicon glyphicon-pencil" id="blue"></button>
@@ -60,7 +60,7 @@
         <button class="btn btn-default glyphicon glyphicon-erase" id="Erase"></button>
     </div>
     <br>
-    <div class="btn-group beforeSubmit beforeReady text-center">
+    <div class="btn-group beforeSubmit beforeReady">
       <button class="nameBtn btn btn-primary btn-lg" id="Finish">Submit</button>
     </div>
   </div> 
