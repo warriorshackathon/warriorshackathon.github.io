@@ -1,8 +1,8 @@
 var drawPositions = [];
 var type = 'Ink';
 var InkWidth = 5;
-var maxHeight = 600;
-var maxWidth = 800;
+var maxHeight = window.innerHeight;
+var maxWidth = window.innerWidth;
 
 var background = document.getElementById("background");
 var bgd = background.getContext("2d");
@@ -10,8 +10,6 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
 var disableInk = false;
-var maxHeight = window.screen.availHeight -100;
-var maxWidth = window.screen.availWidth-100;
 
 var studentId = '';
 var studentName = '';
@@ -53,6 +51,8 @@ function main() {
                 bg.onload = function() {
                     imgSize = adjustImage(bg.height, bg.width);
                     setCanvas(imgSize.h, imgSize.w);
+                    console.log('height'+imgSize.h)
+                    console.log('width'+imgSize.w)
                     bgd.drawImage(bg, 0, 0, imgSize.w, imgSize.h);
                 }
             }

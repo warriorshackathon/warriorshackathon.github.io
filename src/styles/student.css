@@ -73,3 +73,8 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   -webkit-appearance: none; 
   margin: 0; 
 }
+
+/*html, body {*/
+    /*max-width: 100%;*/
+    /*overflow-x: hidden;*/
+/*}*/
