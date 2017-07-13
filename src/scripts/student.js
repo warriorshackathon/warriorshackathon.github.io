@@ -1,8 +1,8 @@
 var drawPositions = [];
 var type = 'Ink';
 var InkWidth = 5;
-var maxHeight = window.innerHeight;
-var maxWidth = window.innerWidth;
+var maxHeight = 0;
+var maxWidth = 0;
 
 var background = document.getElementById("background");
 var bgd = background.getContext("2d");
@@ -50,6 +50,8 @@ function main() {
                 bg.crossOrigin = "Anonymous";
                 bg.src = file;
                 bg.onload = function() {
+                    maxHeight = window.innerHeight;
+                    maxWidth = window.innerWidth-25;
                     imgSize = adjustImage(bg.height, bg.width);
                     setCanvas(imgSize.h, imgSize.w);
                     console.log('height'+imgSize.h)
