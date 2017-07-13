@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  padding: 0;
+  margin: 0;
+}
+.fit {
+  max-width: 100%;
+  max-height: 100%;
+}
+.center {
+  display: block;
+  margin: auto;
+}
+#tranButton {
+  height:15%;
+  width:10%;
+  background: #FFF; /* Just so we can see it */
+  position: absolute;
+  opacity: 0.001;
+  top: 62%;
+  left: 50%;  /* Put the left edge on the horizontal center */
+ }
+</style>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" language="JavaScript">
+function set_body_height()
+{
+    var wh = $(window).height();
+    $('body').attr('style', 'height:' + wh + 'px;');
+}
+$(document).ready(function() {
+    set_body_height();
+    $(window).bind('resize', function() { set_body_height(); });
+});
+function gotoapp(){
+	window.location.href = "https://warriorshackathon.github.io/src/teacher.html"
+
+}
+</script>
+</head>
+<body>
+<img id="the_pic" class="center fit" src="resources/notebook_background.png" >  
+<div id="tranButton" onclick="gotoapp()"></div> 
+</body>
+</html>
