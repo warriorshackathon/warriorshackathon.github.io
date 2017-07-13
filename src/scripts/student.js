@@ -40,6 +40,7 @@ function main() {
             file = snapshot.val();
             $('#Finish').show();
             $('#source').hide();
+            $('.beforeReady').show();
             $('#canvasId').show();
             if (file == '') {
                 setCanvas(500, 500);
@@ -144,6 +145,7 @@ function main() {
         }
         else {
             $('#source').show();
+            $('.beforeReady').hide();
             $('#canvasId').hide();
 
         }
@@ -154,8 +156,8 @@ function studentLogin() {
     studentName = ($("#studentNameInput").val() == '') ? getRandomName() : $("#studentNameInput").val();
     sessionIdStudent = $("#sessionIdInput").val();
 
-    $("#beforeLogin").css({'display':'none'});
-    $("#afterLogin").css({'display':'block'});
+    $("#beforeLogin").hide();
+    $("#afterLogin").show();
     $("#studentSessionInfo").html("Student: " + studentName + "<br/> Session ID: " + sessionIdStudent);
 
     main();
@@ -284,12 +286,12 @@ function getRandomName() {
 }
 
 function finishActivity() {
-    $(".beforeSubmit").css({'display':'none'});
-    $(".afterSubmit").css({'display':'block'});
+    $(".beforeSubmit").hide();
+    $(".afterSubmit").show();
     disableInk = true;
 }
 function startActivity() {
-    $(".beforeSubmit").css({'display':'block'});
-    $(".afterSubmit").css({'display':'none'});
+    $(".beforeSubmit").show();
+    $(".afterSubmit").hide();
     disableInk = false;
 }
