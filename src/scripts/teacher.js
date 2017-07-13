@@ -72,9 +72,16 @@ function downloadPDF() {
   for (i = 0; i < reviewLength; ++i) {
     childrenElement = reviewElements[i].children;
     imgsrc = childrenElement[0].src;
+    imgwidth = childrenElement[0].width
+    imgheight = childrenElement[0].height
+    aspratio = imgheight/imgwidth
+    if (imgwidth > 175) {
+        imgwidth = 175
+        imgheight = aspratio*imgwidth
+    }
     name = childrenElement[1].innerText;
-    doc.addImage(imgsrc, 'JPEG', 15, 30, 175, 200);
-    doc.text(35, 260, name);
+    doc.addImage(imgsrc, 'JPEG', 15, 30, imgwidth, imgheight);
+    doc.text(35, imgheight+40, name);
     if (!(i == (reviewLength - 1))) {
       doc.addPage();
     }
@@ -167,3 +174,4 @@ function stream(t) {
   firebase.database().ref(sessionId + '/stream').set({imgsrc: imgsrc, name: name});
   $('#streamBtn').show();
 }
+
