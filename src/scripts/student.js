@@ -48,6 +48,7 @@ function main() {
                 bg = new Image();
                 bg.crossOrigin = "Anonymous";
                 bg.src = file;
+                console.log(file);
                 bg.onload = function() {
                     maxHeight = window.innerHeight;
                     maxWidth = window.innerWidth-25;
