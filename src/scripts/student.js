@@ -38,6 +38,7 @@ function main() {
         //console.log(snapshot.val());
         if (snapshot.val()) {
             file = snapshot.val();
+            $('#Finish').show();
             $('#source').hide();
             $('#canvasId').show();
             if (file == '') {
@@ -79,7 +80,7 @@ function main() {
                                 mousePos = getMousePos(e);
                                 updateAndDraw(mousePos.x, mousePos.y);
                             }
-                        } 
+                        }
                         if (!disableInk && type == 'Erase'){
                             eraseContent(mousePos.x, mousePos.y);
                             canvas.onmousemove = function(e) {
@@ -100,7 +101,7 @@ function main() {
                             touchPos = getTouchPos(e);
                             updateAndDraw(touchPos.x, touchPos.y);
                         }
-                    } 
+                    }
                     if (!disableInk && type == 'Erase'){
                         eraseContent(touchPos.x, touchPos.y);
                         canvas.ontouchmove = function(e) {
