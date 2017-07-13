@@ -49,13 +49,12 @@ function main() {
                 bg = new Image();
                 bg.crossOrigin = "Anonymous";
                 bg.src = file;
+                alert(file);
                 bg.onload = function() {
                     maxHeight = window.innerHeight;
                     maxWidth = window.innerWidth-25;
                     imgSize = adjustImage(bg.height, bg.width);
                     setCanvas(imgSize.h, imgSize.w);
-                    console.log('height'+imgSize.h)
-                    console.log('width'+imgSize.w)
                     bgd.drawImage(bg, 0, 0, imgSize.w, imgSize.h);
                 }
             }
