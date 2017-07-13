@@ -49,7 +49,7 @@ function main() {
                 bg = new Image();
                 bg.crossOrigin = "Anonymous";
                 bg.src = file;
-                bg.setAttribute('crossOrigin', 'anonymous');
+                bg.removeAttribute('crossOrigin')
                 bg.onload = function () {
                     maxHeight = window.innerHeight;
                     maxWidth = window.innerWidth - 25;
@@ -65,7 +65,7 @@ function main() {
             $('#canvasId').hide();
         }
     });
-    
+
     button = document.getElementById("types");
     button.addEventListener('click', function (e) {
         console.log(e.target.id);
