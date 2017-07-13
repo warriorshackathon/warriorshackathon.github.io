@@ -43,9 +43,8 @@ function main() {
             $('#canvasId').show();
             if (file == '') {
                 setCanvas(500, 500);
-            } else if (file.includes('.pdf')) {
-                convertToPDF(file, 1)
-            } else {
+            }
+            else {
                 bg = new Image();
                 bg.crossOrigin = "Anonymous";
                 bg.src = file;
