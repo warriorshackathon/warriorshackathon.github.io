@@ -47,7 +47,6 @@ function main() {
             }
             else {
                 bg = new Image();
-                bg.crossOrigin = "Anonymous";
                 bg.src = file;
                 bg.removeAttribute('crossOrigin')
                 bg.onload = function () {

@@ -145,7 +145,7 @@ function startSession() {
         var image = new Image();
         image.src = snapshot.val().studentImg;
 
-        var modal = '<div id="' + lessonCount + 'myModal" class="modal fade" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close modalBtn" data-dismiss="modal">&times;</button><button type="button" class="close" onclick="stream()"><i class="fa fa-podcast" aria-hidden="true"></i></button><h4 class="modal-title">'+ snapshot.val().name +'</h4></div><div class="modal-body">'+ image.outerHTML +'</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>'
+        var modal = '<div id="' + lessonCount + 'myModal" class="modal fade" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button  type="button" class="close modalBtn" data-dismiss="modal">&times;</button><button value = '  + lessonCount + ' type="button" class="close" onclick="stream(this)"><i class="fa fa-podcast" aria-hidden="true"></i></button><h4 class="modal-title">'+ snapshot.val().name +'</h4></div><div class="modal-body">'+ image.outerHTML +'</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>'
 
         var newDiv = "<div class='review' data-toggle='modal' data-target = '#" + lessonCount + "myModal'>" + image.outerHTML + "<p class='text-review'>" + snapshot.val().name + "</p></div>"
         lessonCount++;
@@ -160,10 +160,10 @@ function endStream() {
   firebase.database().ref(sessionId+ '/stream').remove();
 }
 
-function stream() {
+function stream(t) {
   endStream();
-  imgsrc = $('.modal-body')[lessonCount-1].innerHTML;
-  name = $('.modal-title')[lessonCount-1].innerHTML;
+  imgsrc = $('.modal-body')[t.value].innerHTML;
+  name = $('.modal-title')[t.value].innerHTML;
   firebase.database().ref(sessionId + '/stream').set({imgsrc: imgsrc, name: name});
   $('#streamBtn').show();
 }
