@@ -161,6 +161,7 @@ function endStream() {
 }
 
 function stream() {
+  endStrem();
   imgsrc = $('.modal-body')[lessonCount-1].innerHTML;
   name = $('.modal-title')[lessonCount-1].innerHTML;
   firebase.database().ref(sessionId + '/stream').set({imgsrc: imgsrc, name: name});
