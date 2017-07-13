@@ -4,7 +4,8 @@ var lessonCount = 0;
 $(document).ready(function() {
 
   $('#teacherReviewSessionName').html('Session ID: ' + sessionId);
-  sessionId = makeid()
+  //sessionId = makeid()
+  sessionId = 56607789;
   $('#sessionIdDiv').html("Session Id: "+sessionId)
   $('.list-group-item').click(function() {
     $('.list-group-item .list-group-item-inner').css({'display': 'none'});
