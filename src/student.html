@@ -43,7 +43,7 @@
     </div>
 
 
-    <div id="canvasId" class ="canvasGroup">
+    <div id="canvasId" class ="canvasGroup" onmousedown="canvasMouseDown(event)" onmouseup="canvasMouseUp(event)" ontouchstart="canvasTouchDown(event)" ontouchend="canvasTouchEnd(event)">
       <canvas id="myCanvas" style="border:1px solid #c3c3c3;position: absolute; left: 0; top: 0; z-index: 1;">
         Your browser does not support the canvas element.
       </canvas>
@@ -52,7 +52,7 @@
       </canvas>
     </div>
     <br>
-    <div id="types" class="btn-group beforeSubmit beforeReady">
+    <div id="types" class="btn-group beforeSubmit beforeReady" onclick="clickButton(event)">
         <button class="btn btn-default glyphicon glyphicon-pencil" id="black"></button>
         <button class="btn btn-danger glyphicon glyphicon-pencil" id="red"></button>
         <button class="btn btn-primary glyphicon glyphicon-pencil" id="blue"></button>

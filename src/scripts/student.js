@@ -64,70 +64,6 @@ function main() {
             $('#canvasId').hide();
         }
     });
-
-    canvas.addEventListener('mousedown', function (e) {
-        if (e.button == 0) {
-            mousePos = getMousePos(e);
-            if (!disableInk && type == 'Ink') {
-                updateAndDraw(mousePos.x, mousePos.y);
-                canvas.onmousemove = function (e) {
-                    mousePos = getMousePos(e);
-                    updateAndDraw(mousePos.x, mousePos.y);
-                }
-            }
-            if (!disableInk && type == 'Erase') {
-                eraseContent(mousePos.x, mousePos.y);
-                canvas.onmousemove = function (e) {
-                    mousePos = getMousePos(e);
-                    eraseContent(mousePos.x, mousePos.y);
-                }
-            }
-        }
-    });
-
-    canvas.addEventListener('touchstart', function (e) {
-        e.preventDefault();
-        touchPos = getTouchPos(e);
-        if (!disableInk && type == 'Ink') {
-            updateAndDraw(touchPos.x, touchPos.y);
-            canvas.ontouchmove = function (e) {
-                e.preventDefault();
-                touchPos = getTouchPos(e);
-                updateAndDraw(touchPos.x, touchPos.y);
-            }
-        }
-        if (!disableInk && type == 'Erase') {
-            eraseContent(touchPos.x, touchPos.y);
-            canvas.ontouchmove = function (e) {
-                e.preventDefault();
-                touchPos = getTouchPos(e);
-                eraseContent(touchPos.x, touchPos.y);
-            }
-        }
-    });
-
-    canvas.addEventListener("mouseup", function (e) {
-        if (type == 'Ink') {
-            canvas.onmousemove = function (e) {
-                drawPositions = [];
-            }
-        } else {
-            canvas.onmousemove = null
-        }
-    });
-
-    canvas.addEventListener("touchend", function (e) {
-        e.preventDefault();
-        if (type == 'Ink') {
-            drawPositions = [];
-            canvas.ontouchmove = function (e) {
-                e.preventDefault();
-                drawPositions = [];
-            }
-        } else {
-            canvas.ontouchmove = null
-        }
-    });
 }
 
 function studentLogin() {
@@ -144,6 +80,70 @@ function studentLogin() {
 $("#Finish").click(function() {
     combineCanvases();
 });
+
+function canvasMouseDown(e){
+    if (e.button == 0) {
+        mousePos = getMousePos(e);
+        if (!disableInk && type == 'Ink') {
+            updateAndDraw(mousePos.x, mousePos.y);
+            canvas.onmousemove = function (e) {
+                mousePos = getMousePos(e);
+                updateAndDraw(mousePos.x, mousePos.y);
+            }
+        }
+        if (!disableInk && type == 'Erase') {
+            eraseContent(mousePos.x, mousePos.y);
+            canvas.onmousemove = function (e) {
+                mousePos = getMousePos(e);
+                eraseContent(mousePos.x, mousePos.y);
+            }
+        }
+    }
+}
+
+function canvasMouseUp(e){
+    if (type == 'Ink') {
+        canvas.onmousemove = function (e) {
+            drawPositions = [];
+        }
+    } else {
+        canvas.onmousemove = null
+    }
+}
+
+function canvasTouchStart(e){
+    e.preventDefault();
+    touchPos = getTouchPos(e);
+    if (!disableInk && type == 'Ink') {
+        updateAndDraw(touchPos.x, touchPos.y);
+        canvas.ontouchmove = function (e) {
+            e.preventDefault();
+            touchPos = getTouchPos(e);
+            updateAndDraw(touchPos.x, touchPos.y);
+        }
+    }
+    if (!disableInk && type == 'Erase') {
+        eraseContent(touchPos.x, touchPos.y);
+        canvas.ontouchmove = function (e) {
+            e.preventDefault();
+            touchPos = getTouchPos(e);
+            eraseContent(touchPos.x, touchPos.y);
+        }
+    }
+}
+
+function canvasTouchEnd(e){
+    e.preventDefault();
+    if (type == 'Ink') {
+        drawPositions = [];
+        canvas.ontouchmove = function (e) {
+            e.preventDefault();
+            drawPositions = [];
+        }
+    } else {
+        canvas.ontouchmove = null
+    }
+}
 
 function clickButton(e){
     if (e.target.id == 'red' || e.target.id == 'blue' || e.target.id == 'black' || e.target.id == 'green') {
