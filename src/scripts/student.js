@@ -65,21 +65,6 @@ function main() {
         }
     });
 
-    button = document.getElementById("types");
-    button.addEventListener('click', function (e) {
-        console.log(e.target.id);
-        if (e.target.id == 'red' || e.target.id == 'blue' || e.target.id == 'black' || e.target.id == 'green') {
-            setDefault(e.target.id, InkWidth);
-            type = 'Ink';
-        }
-        else if (e.target.id != 'Finish') {
-            if (type == 'Highlight') {
-                ctx.globalAlpha = 1;
-            }
-            type = e.target.id;
-        }
-    });
-
     canvas.addEventListener('mousedown', function (e) {
         if (e.button == 0) {
             mousePos = getMousePos(e);
@@ -159,6 +144,19 @@ function studentLogin() {
 $("#Finish").click(function() {
     combineCanvases();
 });
+
+function clickButton(e){
+    if (e.target.id == 'red' || e.target.id == 'blue' || e.target.id == 'black' || e.target.id == 'green') {
+        setDefault(e.target.id, InkWidth);
+        type = 'Ink';
+    }
+    else if (e.target.id != 'Finish') {
+        if (type == 'Highlight') {
+            ctx.globalAlpha = 1;
+        }
+        type = e.target.id;
+    }
+}
 
 function combineCanvases(){
     bgd.drawImage(canvas,0,0);
