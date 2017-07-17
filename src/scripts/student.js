@@ -83,18 +83,18 @@ $("#Finish").click(function() {
 
 function canvasMouseDown(e){
     if (e.button == 0) {
-        mousePos = getMousePos(e);
+        var mousePos = getPos(e);
         if (!disableInk && type == 'Ink') {
             updateAndDraw(mousePos.x, mousePos.y);
             canvas.onmousemove = function (e) {
-                mousePos = getMousePos(e);
+                mousePos = getPos(e);
                 updateAndDraw(mousePos.x, mousePos.y);
             }
         }
         if (!disableInk && type == 'Erase') {
             eraseContent(mousePos.x, mousePos.y);
             canvas.onmousemove = function (e) {
-                mousePos = getMousePos(e);
+                mousePos = getPos(e);
                 eraseContent(mousePos.x, mousePos.y);
             }
         }
@@ -103,7 +103,8 @@ function canvasMouseDown(e){
 
 function canvasMouseUp(e){
     if (type == 'Ink') {
-        canvas.onmousemove = function (e) {
+        // canvasClick(e);
+        canvas.onmousemove = function () {
             drawPositions = [];
         }
     } else {
@@ -113,12 +114,12 @@ function canvasMouseUp(e){
 
 function canvasTouchStart(e){
     e.preventDefault();
-    touchPos = getTouchPos(e);
+    var touchPos = getPos(e);
     if (!disableInk && type == 'Ink') {
         updateAndDraw(touchPos.x, touchPos.y);
         canvas.ontouchmove = function (e) {
             e.preventDefault();
-            touchPos = getTouchPos(e);
+            touchPos = getPos(e);
             updateAndDraw(touchPos.x, touchPos.y);
         }
     }
@@ -126,7 +127,7 @@ function canvasTouchStart(e){
         eraseContent(touchPos.x, touchPos.y);
         canvas.ontouchmove = function (e) {
             e.preventDefault();
-            touchPos = getTouchPos(e);
+            touchPos = getPos(e);
             eraseContent(touchPos.x, touchPos.y);
         }
     }
@@ -135,14 +136,19 @@ function canvasTouchStart(e){
 function canvasTouchEnd(e){
     e.preventDefault();
     if (type == 'Ink') {
+        // canvasClick(e);
         drawPositions = [];
         canvas.ontouchmove = function (e) {
             e.preventDefault();
-            drawPositions = [];
         }
     } else {
         canvas.ontouchmove = null
     }
+}
+
+function canvasClick(e){
+    var pos = getPos(e);
+    ctx.fillRect(pos.x, pos.y, InkWidth, InkWidth);
 }
 
 function clickButton(e){
@@ -193,20 +199,22 @@ function setCanvas(height, width) {
     document.getElementById('canvasId').style.width=width+'px';
 }
 
-function getMousePos(pointer) {
+function getPos(e){
     var rect = canvas.getBoundingClientRect();
-    return {
-        x: (pointer.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
-        y: (pointer.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
-    };
-}
-
-function getTouchPos(pointer) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-        x: (pointer.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width,
-        y: (pointer.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
-    };
+    if (e.type.includes('touch')){
+        // console.log(e.clientX)
+        console.log(e.touches[0].clientX)
+        return {
+            x: (e.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+            y: (e.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+        };
+    }
+    else{
+        return {
+            x: (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+            y: (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+        };
+    }
 }
 
 function updateAndDraw(posX, posY) {
@@ -228,7 +236,7 @@ function drawLine() {
 }
 
 function addText(pointer, text){
-    mousePos = getMousePos(pointer);
+    mousePos = getPos(pointer);
     ctx.fillText(text,mousePos.x,mousePos.y);
 }
 
