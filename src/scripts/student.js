@@ -103,7 +103,7 @@ function canvasMouseDown(e){
 
 function canvasMouseUp(e){
     if (type == 'Ink') {
-        // canvasClick(e);
+        canvasClick(e);
         canvas.onmousemove = function () {
             drawPositions = [];
         }
@@ -136,8 +136,7 @@ function canvasTouchStart(e){
 function canvasTouchEnd(e){
     e.preventDefault();
     if (type == 'Ink') {
-        // canvasClick(e);
-        drawPositions = [];
+        canvasClick(e);
         canvas.ontouchmove = function (e) {
             e.preventDefault();
         }
@@ -147,8 +146,8 @@ function canvasTouchEnd(e){
 }
 
 function canvasClick(e){
-    var pos = getPos(e);
-    ctx.fillRect(pos.x, pos.y, InkWidth, InkWidth);
+    pos = drawPositions.shift();
+    ctx.fillRect(pos[0]-(InkWidth/2), pos[1]-(InkWidth/2), InkWidth, InkWidth);
 }
 
 function clickButton(e){
@@ -202,8 +201,6 @@ function setCanvas(height, width) {
 function getPos(e){
     var rect = canvas.getBoundingClientRect();
     if (e.type.includes('touch')){
-        // console.log(e.clientX)
-        console.log(e.touches[0].clientX)
         return {
             x: (e.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width,
             y: (e.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
